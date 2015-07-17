@@ -7,6 +7,8 @@ class VotesController < ApplicationController
     @votes = Vote.all
     params[:name].blank? ? "" : selection = adjust_name()
 
+    unless selection.blank?
+
     found_existing = Vote.find_by(name: selection, date: DateTime.now.to_date)
 
     if found_existing.blank? || found_existing.nil?
@@ -15,12 +17,16 @@ class VotesController < ApplicationController
       found_existing.vote = found_existing.vote + 1
       found_existing.save
     end
-    
+  end
   end
 
   # GET /votes/1
   # GET /votes/1.json
   def show
+  end
+
+  def get_votes
+    @votes = Vote.all
   end
 
   # GET /votes/new
