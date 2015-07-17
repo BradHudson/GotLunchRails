@@ -5,6 +5,17 @@ class VotesController < ApplicationController
   # GET /votes.json
   def index
     @votes = Vote.all
+    params[:name].blank? ? "" : selection = adjust_name()
+
+    found_existing = Vote.find_by(name: selection, date: DateTime.now.to_date)
+
+    if found_existing.blank? || found_existing.nil?
+      vote = Vote.create(name: selection, vote: 1, date: DateTime.now.to_date)
+    else
+      found_existing.vote = found_existing.vote + 1
+      found_existing.save
+    end
+    
   end
 
   # GET /votes/1
@@ -70,5 +81,11 @@ class VotesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def vote_params
       params.require(:vote).permit(:name, :vote, :date)
+    end
+
+    def adjust_name
+      new_name = params[:name].downcase
+      new_name = new_name.strip
+      new_name = new_name.gsub(/\s+/, "")
     end
 end
