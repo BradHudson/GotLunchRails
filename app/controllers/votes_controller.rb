@@ -10,21 +10,21 @@ class VotesController < ApplicationController
 
     unless user_voted == true
 
-    params[:name].blank? ? "" : selection = adjust_name()
+      params[:name].blank? ? "" : selection = adjust_name()
 
-    unless selection.blank?
+      unless selection.blank?
 
-    new_user_vote = User.create(uid: params[:uid], date: DateTime.now.to_date)
-    found_existing = Vote.find_by(name: selection, date: DateTime.now.to_date)
+        new_user_vote = User.create(uid: params[:uid], date: DateTime.now.to_date)
+        found_existing = Vote.find_by(name: selection, date: DateTime.now.to_date)
 
-    if found_existing.blank? || found_existing.nil?
-      vote = Vote.create(name: selection, vote: 1, date: DateTime.now.to_date)
-    else
-      found_existing.vote = found_existing.vote + 1
-      found_existing.save
+        if found_existing.blank? || found_existing.nil?
+          vote = Vote.create(name: selection, vote: 1, date: DateTime.now.to_date)
+        else
+          found_existing.vote = found_existing.vote + 1
+          found_existing.save
+        end
+      end
     end
-    end
-  end
   end
 
   # GET /votes/1
