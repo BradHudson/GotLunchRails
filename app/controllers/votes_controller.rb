@@ -5,10 +5,16 @@ class VotesController < ApplicationController
   # GET /votes.json
   def index
     @votes = Vote.all
+
+    user_voted = has_user_already_voted()
+
+    unless user_voted == true
+
     params[:name].blank? ? "" : selection = adjust_name()
 
     unless selection.blank?
 
+    new_user_vote = User.create(uid: params[:uid], date: DateTime.now.to_date)
     found_existing = Vote.find_by(name: selection, date: DateTime.now.to_date)
 
     if found_existing.blank? || found_existing.nil?
@@ -16,6 +22,7 @@ class VotesController < ApplicationController
     else
       found_existing.vote = found_existing.vote + 1
       found_existing.save
+    end
     end
   end
   end
@@ -79,6 +86,18 @@ class VotesController < ApplicationController
   end
 
   private
+    def has_user_already_voted
+      if params[:uid].blank?
+        return true
+      else
+        found_user = User.find_by(uid: params[:uid], date: DateTime.now.to_date)
+      end
+      if found_user.nil? || found_user.blank?
+        return false
+      else
+        return true
+      end
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_vote
       @vote = Vote.find(params[:id])
