@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150717225648) do
+ActiveRecord::Schema.define(version: 20150717231551) do
 
   create_table "groups", force: :cascade do |t|
     t.string   "name"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20150717225648) do
     t.date     "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "group"
   end
 
   create_table "votes", force: :cascade do |t|
