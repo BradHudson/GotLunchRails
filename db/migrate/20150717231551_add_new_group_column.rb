@@ -2,7 +2,7 @@ class AddNewGroupColumn < ActiveRecord::Migration
   def change
   	execute '
       ALTER TABLE "users"
-      ADD COLUMN "group"
-      TYPE int'
+      ADD COLUMN "user_group"
+      TYPE integer'
   end
 end
